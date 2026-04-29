@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최종호 - 컨설턴트</title>
+    <style>
+        /* 색상 변수 정의: 네이비, 흰색, 짙은 회색 */
+        :root {
+            --primary-color: #1F3864;
+            --text-color: #333333;
+            --bg-color: #ffffff;
+            --light-bg: #f5f5f5;
+        }
+
+        /* 기본 스타일 */
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* 전체 컨테이너 */
+        .container {
+            max-width: 768px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* 상단 헤더 영역 (프로필, 이름, 자기소개) */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .profile-wrapper {
+            margin-bottom: 24px;
+        }
+
+        .profile-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: var(--light-bg);
+            border: 3px solid var(--primary-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #999;
+        }
+
+        /* 프로필 사진을 위한 SVG 아이콘 (실제 이미지로 대체 가능) */
+        .profile-img svg {
+            width: 80px;
+            height: 80px;
+            fill: #ccc;
+        }
+
+        /* 이름, 직책, 회사 (한 줄 표시, 본문 1.5배 이상) */
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 1.6em; /* 모바일 기본 */
+            margin: 0 0 20px 0;
+            font-weight: 700;
+            word-break: keep-all;
+        }
+
+        /* 자기소개 문장 (3~5줄) */
+        .intro-text {
+            font-size: 1.05em;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+            word-break: keep-all;
+        }
+
+        .intro-text p {
+            margin: 0;
+        }
+
+        /* 경력 섹션 */
+        .experience-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 24px;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .experience-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .experience-item {
+            background-color: var(--light-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .experience-content {
+            flex: 1;
+        }
+
+        .experience-header {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: var(--primary-color);
+            margin-bottom: 6px;
+        }
+
+        .experience-summary {
+            margin: 0;
+            color: var(--text-color);
+            font-size: 0.95em;
+        }
+
+        /* 회사 로고 플레이스홀더 (선택 기능) */
+        .company-logo {
+            width: 48px;
+            height: 48px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-left: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            color: #666;
+            flex-shrink: 0;
+        }
+
+        /* 하단 버튼 영역 */
+        .actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1em;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            min-width: 160px;
+            box-sizing: border-box;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+        }
+
+        .btn-outline {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 2px solid var(--text-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--light-bg);
+        }
+
+        /* 토스트 알림 메시지 (클립보드 복사 시) */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 1em;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+        /* 반응형 디자인 (PC에서는 글자 크기 증가) */
+        @media (min-width: 600px) {
+            .header h1 {
+                font-size: 2.2em; /* PC에서는 본문(1em)의 2배 이상 크게 */
+            }
+            .intro-text {
+                font-size: 1.1em;
+            }
+            body {
+                font-size: 18px; /* PC에서는 전체적으로 조금 더 크게 */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .btn {
+                width: 100%;
+            }
+            .company-logo {
+                display: none; /* 모바일 화면이 좁을 때는 로고 숨김 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 1. 프로필 이미지 & 기본 정보 -->
+        <header class="header">
+            <!-- 프로필 사진 (선택 기능) -->
+            <div class="profile-wrapper">
+                <div class="profile-img">
+                    <img src="./profile.jpg" alt="최종호 프로필 사진" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+            
+            <!-- 이름 / 나이 / 직업 (한 줄) -->
+            <h1>최종호 / 1964 / 컨설턴트</h1>
+            
+            <!-- 자기소개 -->
+            <div class="intro-text">
+                <p>
+                    38년간 SK이노베이션에서 감사, 전략, 기획, 내부 컨설팅, ERP 구축, 프로젝트 수행, 기술기반 성장 전략 도출 및 실행 등 다양한 업무를 경험했습니다.<br>
+                    변화하는 비즈니스 환경 속에서 조직의 지속적인 성장과 혁신을 돕는 든든한 파트너가 되겠습니다.
+                </p>
+            </div>
+        </header>
+
+        <!-- 2. 경력 사항 -->
+        <section class="experience-section">
+            <h2 class="section-title">주요 경력</h2>
+            <ul class="experience-list">
+                <li class="experience-item">
+                    <div class="experience-content">
+                        <!-- 연도 · 회사 · 직책 -->
+                        <div class="experience-header">2013 - 2024 · SK이노베이션 · 부장,PM</div>
+                        <!-- 한 줄 요약 -->
+                        <p class="experience-summary">운영기획담당</p>
+                    </div>
+                    <!-- 회사 로고 (선택 기능) -->
+                    <div class="company-logo">
+                        <img src="./sk_logo.png" alt="SK이노베이션" style="width: 100%; height: 100%; object-fit: contain; padding: 4px; box-sizing: border-box;">
+                    </div>
+                </li>
+                <li class="experience-item">
+                    <div class="experience-content">
+                        <div class="experience-header">2010 - 2012 · SK이노베이션 · 팀장</div>
+                        <p class="experience-summary">TI전략실</p>
+                    </div>
+                    <div class="company-logo">
+                        <img src="./sk_logo.png" alt="SK이노베이션" style="width: 100%; height: 100%; object-fit: contain; padding: 4px; box-sizing: border-box;">
+                    </div>
+                </li>
+                <li class="experience-item">
+                    <div class="experience-content">
+                        <div class="experience-header">2005 - 2010 · SK이노베이션 · 팀장</div>
+                        <p class="experience-summary">전략연구그룹</p>
+                    </div>
+                    <div class="company-logo">
+                        <img src="./sk_logo.png" alt="SK이노베이션" style="width: 100%; height: 100%; object-fit: contain; padding: 4px; box-sizing: border-box;">
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- 3. 학력 사항 -->
+        <section class="experience-section">
+            <h2 class="section-title">학력</h2>
+            <ul class="experience-list">
+                <li class="experience-item">
+                    <div class="experience-content">
+                        <div class="experience-header">서울대/경영학(1986), Thunderbird MBA(1997)</div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- 4. 하단 액션 버튼 -->
+        <section class="actions">
+            <!-- 이메일 보내기 버튼 (mailto 링크 사용) -->
+            <a href="mailto:minerba67@naver.com" class="btn btn-primary">✉️ 이메일 보내기</a>
+            
+            <!-- 전화 걸기 버튼 (tel 링크 사용) -->
+            <a href="tel:+82-10-8752-3750" class="btn btn-outline">📞 전화 걸기</a>
+        </section>
+    </div>
+
+    <!-- 클립보드 복사 성공 알림 메시지 영역 -->
+    <div id="toast">전화번호가 클립보드에 복사되었습니다.</div>
+
+    <!-- 인터랙션 스크립트 -->
+    <script>
+        function copyPhoneNumber() {
+            // 복사할 전화번호
+            const phoneNumber = "010-1234-5678";
+            
+            // Clipboard API가 지원되는 최신 브라우저 환경
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(phoneNumber).then(() => {
+                    showToast();
+                }).catch(err => {
+                    console.error('Clipboard API Failed: ', err);
+                    fallbackCopyTextToClipboard(phoneNumber);
+                });
+            } else {
+                // Clipboard API 미지원 시 레거시 방식 사용
+                fallbackCopyTextToClipboard(phoneNumber);
+            }
+        }
+
+        // 구형 브라우저 및 비보안 컨텍스트(HTTP) 지원을 위한 폴백
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            
+            // 화면에 보이지 않게 처리
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast();
+                } else {
+                    alert('전화번호 복사에 실패했습니다.');
+                }
+            } catch (err) {
+                console.error('Fallback Copy Error:', err);
+                alert('전화번호 복사 중 오류가 발생했습니다.');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // 알림 메시지 띄우기
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            
+            // 3초 후 사라지게 처리
+            setTimeout(() => {
+                toast.className = toast.className.replace("show", "");
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
